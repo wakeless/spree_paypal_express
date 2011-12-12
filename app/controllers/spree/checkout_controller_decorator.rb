@@ -69,6 +69,7 @@ module Spree
         @order.special_instructions = @ppx_details.params["note"]
 
         unless payment_method.preferred_no_shipping
+          Rails.logger.info "preferred_no_shipping == false"
           ship_address = @ppx_details.address
           order_ship_address = Spree::Address.new :firstname  => @ppx_details.params["first_name"],
                                            :lastname   => @ppx_details.params["last_name"],
@@ -90,6 +91,7 @@ module Spree
 
           @order.ship_address = order_ship_address
           @order.bill_address = order_ship_address unless @order.bill_address
+          Rails.logger.info "shipping finished"
         end
         @order.save
 
