@@ -195,7 +195,7 @@ module Spree
     end
 
     def fixed_opts
-        user_action = "continue"
+        user_action = "commit"
 
       { :description             => "Goods from #{Spree::Config[:site_name]}", # site details...
 
