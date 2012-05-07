@@ -145,14 +145,9 @@ module Spree
           Rails.logger.error ppx_auth_response.to_yaml
         end
 
-        #need to force checkout to complete state
-        until @order.state == "complete"
-          if @order.next!
-            @order.update!
-            state_callback(:after)
-          end
-        end
-
+        @order.update_attribute(:state, "complete")
+        state_callback(:after) # So that after_complete is called, setting session[:order_id] to nil
+        @order.finalize!
         flash[:notice] = I18n.t(:order_processed_successfully)
         redirect_to completion_route
 
